@@ -3,8 +3,11 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "build-client": "turbo build --filter=client",
     "dev": "turbo dev",
+    "dev-client": "turbo dev --filter=client",
     "lint": "turbo lint",
+    "lint-client": "turbo lint --filter=client",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
