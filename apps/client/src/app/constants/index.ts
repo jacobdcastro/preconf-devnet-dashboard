@@ -1,4 +1,4 @@
-import { RelayerInfo } from "../interfaces"
+import { RelayerInfo } from "../../models/relayerinfo"
 
 export const RelayerNames: {[x: string]: string} = {
     titan: "TITAN",
