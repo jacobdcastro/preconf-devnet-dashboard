@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
     "react": "^18",
     "react-dom": "^18",
     "next": "14.2.3"

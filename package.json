@@ -4,10 +4,13 @@
   "scripts": {
     "build": "turbo build",
     "build-client": "turbo build --filter=client",
+    "build-server": "turbo build --filter=server",
     "dev": "turbo dev",
     "dev-client": "turbo dev --filter=client",
+    "dev-server": "turbo dev --filter=server",
     "lint": "turbo lint",
     "lint-client": "turbo lint --filter=client",
+    "lint-server": "turbo lint --filter=server",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
