@@ -6,11 +6,11 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-import { Preconf } from "@/models/preconf"
+
 import { FC } from "react"
+import { ISlot } from "@/models/preconf"
 
-
-interface Props extends Preconf {}
+interface Props extends ISlot {}
   
 const SquareCard: FC<Props> = ({proposerPubKey = "0x123ab...4567c", slotNumber = 43}) => {
     return (

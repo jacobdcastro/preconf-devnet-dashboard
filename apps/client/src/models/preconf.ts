@@ -1,6 +1,7 @@
+
 export interface IRelayerInfo {
     name: string | undefined;
-    logoPath: string;
+    img: any;
 }
 
 export interface IGatewayInfo {
@@ -25,3 +26,33 @@ export interface IEpoch {
     startTime?: number;
     index?: number;
 }
+
+
+export const RelayerNames: {[x: string]: string} = {
+    titan: "TITAN",
+    ultrasound: "ULTRASOUND",
+    limechain: "LIMECHAIN",
+    chainbound: "CHAINBOUND"
+}
+
+export const Gateway: {[x: string]: string} = {
+}
+
+export const Relayers: IRelayerInfo[] = [
+    {
+        name: RelayerNames.titan, 
+        img: '/logos/titan.jpg'
+    },
+    {
+        name: RelayerNames.ultrasound, 
+        img: '/logos/ultrasound.png'
+    },
+    {
+        name: RelayerNames.limechain, 
+        img: '/logos/limechain.png'
+    },
+    {
+        name: RelayerNames.chainbound, 
+        img: '/logos/chainbound.jpg'
+    },
+]
