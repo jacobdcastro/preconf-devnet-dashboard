@@ -40,6 +40,7 @@ app.get("/data", async (req: Request, res: Response) => {
     genesisTimeSeconds,
     currentEpoch,
     currentSlot,
+    slotIndex: currentSlot % 32,
     currentEpochProposers: proposerRes.data.data,
   };
 
