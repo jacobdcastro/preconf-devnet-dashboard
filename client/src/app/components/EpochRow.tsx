@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { ISlot } from '@/models/preconf';
+import { ISlot } from '@/interfaces/preconf';
 
 const EpochRow = ({currentEpoch, currentEpochProposers, slotIndex}: ISlot) => {
 
