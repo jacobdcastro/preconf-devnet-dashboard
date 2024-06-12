@@ -18,6 +18,12 @@
         "^lint"
       ]
     },
+    "start": {
+      "dependsOn": [
+        "^build",
+        "^start"
+      ]
+    },
     "dev": {
       "cache": false,
       "interactive": true,

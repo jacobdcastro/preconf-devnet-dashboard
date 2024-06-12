@@ -5,16 +5,16 @@
     "build": "turbo build",
     "build-client": "turbo build --filter=client",
     "build-server": "turbo build --filter=server",
+    "start": "turbo start --filter=server",
+    "start-server": "turbo start --filter=server",
     "dev": "turbo dev",
     "dev-client": "turbo dev --filter=client",
     "dev-server": "turbo dev --filter=server",
     "lint": "turbo lint",
     "lint-client": "turbo lint --filter=client",
     "lint-server": "turbo lint --filter=server",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
 
-    "build-server-image": "docker build apps/server/. -t preconf-devnet-dashboard",
-    "run-server-image": "docker run preconf-devnet-dashboard"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
