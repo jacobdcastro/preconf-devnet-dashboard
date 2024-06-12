@@ -13,13 +13,13 @@ const getCurrentRelayer = () => {
 export default function Home() {
   const currentRelayer = getCurrentRelayer();
   return (
-    <>
+    <main>
     <Navbar/>
     <MainContentWrapper>
       <EpochRow />
       <PreconfBanner relayer={currentRelayer} />
       <SquareCard />
     </MainContentWrapper>
-    </>
+    </main>
   );
 }
