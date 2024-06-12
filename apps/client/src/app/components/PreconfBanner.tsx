@@ -14,13 +14,13 @@ const RelayerDisplay = (relayer: IRelayerInfo) => {
 interface Props extends ISlot {
 }
   
-export default function PreconfBanner({relayer, slotNumber, gateway, proposerPubKey}: Props) {
+export default function PreconfBanner({relayer, slotIndex, gateway, proposerPubKey}: Props) {
   return (
       <>
         <div>
           <h3 className="text-base font-semibold leading-6 text-gray-200 ">Current Preconf Details</h3>
           <dl className="grid grid-cols-1 gap-2 sm:grid-cols-4 max-w-4xl mt-2">
-              <SquareCard title="Slot" value={slotNumber ? slotNumber: 'Fetching..'}/>
+              <SquareCard title="Slot" value={slotIndex ? slotIndex: 'Fetching..'}/>
               {/* Proposer */}
               <SquareCard title="Slot" value={proposerPubKey ? proposerPubKey: 'Fetching..'}/>
               {/* Gateway */}

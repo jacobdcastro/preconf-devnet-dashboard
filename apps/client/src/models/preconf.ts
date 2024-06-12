@@ -13,7 +13,7 @@ export interface ISlot {
     validatorIndex?: number;
     relayer?: IRelayerInfo; 
     gateway?: IGatewayInfo;
-    slotNumber?: number;
+    slotIndex?: number;
     slotStatus?: string;
     logs?: {
         content?: string;

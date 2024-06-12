@@ -30,9 +30,10 @@ export default function Home() {
   });
 
   useEffect(() => {
-    console.log(data);
-    isPending && console.log("Pending");
+    // console.log(data);
+    // isPending && console.log("Pending");
   }, [data, isPending]);
+
 
   const currentRelayer = getCurrentRelayer();
   return (
@@ -40,7 +41,7 @@ export default function Home() {
       <img src="/gradient.png" className="absolute top-0 right-0 w-fukll h-auto" alt="orb" />
       <Navbar />
       <MainContentWrapper>
-        <EpochRow />
+        <EpochRow data={data} />
         <PreconfBanner relayer={currentRelayer} />
         <LogsDisplay />
       </MainContentWrapper>
