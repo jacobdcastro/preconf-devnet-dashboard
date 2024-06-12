@@ -24,7 +24,7 @@ export default function PreconfBanner({builder, preconf, slotIndex, currentPropo
   return (
       <>
         <div>
-          <h3 className="text-base font-semibold leading-6 text-gray-200 ">Current Preconf Details</h3>
+          <h3 className="text-base font-semibold leading-6 text-gray-200 ">Current Slot Data</h3>
           <dl className="grid grid-cols-1 gap-2 sm:grid-cols-4 max-w-4xl mt-2">
               <SquareCard title="Current Slot" value={slotIndex ? slotIndex : 'Fetching..'} />
               <SquareCard title="Proposer" value={ truncatedPubkey ? truncatedPubkey : 'Fetching..'} />

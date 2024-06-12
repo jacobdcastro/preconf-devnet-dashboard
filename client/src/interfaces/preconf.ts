@@ -81,3 +81,34 @@ export const Builders: IBuilder[] = [
         img: '/logos/ultrasound.png'
     },
 ]
+
+interface PreconfRequestedEvent {
+    protocol_id: string; // Bolt or titan
+    tx_hash: string; // The transaction hash
+    timestamp: number; // Timestamp in UNIX milliseconds
+    slot: number; // The target slot
+    validator_index: number; // The target validator index
+    endpoint: string; // Preconf endpoint
+  }
+  
+  interface PreconfRespondedEvent {
+    protocol_id: string; // Bolt or titan
+    tx_hash: string; // The transaction hash
+    timestamp: number; // Timestamp in UNIX milliseconds
+    slot: number; // The target slot
+    validator_index: number; // The target validator index
+    endpoint: string; // Preconf endpoint
+  }
+  
+  interface PreconfConfirmedEvent {
+    protocol_id: string; // Bolt or titan
+    tx_hash: string; // The transaction hash
+    timestamp: number; // Timestamp in UNIX milliseconds
+    slot: number; // The target slot
+    block_number: number; // Block number
+    block_hash: string; // Block hash
+    graffiti: string; // Graffiti
+    validator_index: number; // The target validator index
+    endpoint: string; // Preconf endpoint
+    tx_hashes: string[]; // Array of transaction hashes
+  }
