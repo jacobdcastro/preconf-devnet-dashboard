@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import SquareCard from "@/components/ui/squarecard"
-import { IRelayerInfo, ISlot } from "@/interfaces/preconf"
+import { IRelayerInfo, ISlot, proposerNames } from "@/interfaces/preconf"
 import { truncateAddress } from "../utils/truncate"
+import { getNameByPubkey } from "../utils/getNameByPubkey"
 
 const displayRelayerBrand = (relayer: IRelayerInfo) => {
   return (
@@ -12,18 +13,16 @@ const displayRelayerBrand = (relayer: IRelayerInfo) => {
   )
 }
 
-const convertProposerPubkeyToName = (currentProposerPubkey: ISlot) => {
-  return (
-    <span className='flex'>
-      <p></p>
-    </span>
-  )
-}
+
+
 
 interface Props extends ISlot {
 }
   
 export default function PreconfBanner({relayer, slotIndex, currentProposerPubkey}: Props) {
+
+  // replace this with real mapping
+  console.log(getNameByPubkey(proposerNames, '0x23'));
   
   const truncatedPubkey = currentProposerPubkey ? truncateAddress({address: currentProposerPubkey, firstCharCount: 5}) : null;
   return (
