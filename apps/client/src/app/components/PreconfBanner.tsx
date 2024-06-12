@@ -22,7 +22,7 @@ export default function PreconfBanner({relayer, slotIndex, gateway, currentPropo
         <div>
           <h3 className="text-base font-semibold leading-6 text-gray-200 ">Current Preconf Details</h3>
           <dl className="grid grid-cols-1 gap-2 sm:grid-cols-3 max-w-4xl mt-2">
-              <SquareCard title="Current Slot" value={slotIndex ? slotIndex + 1 : 'Fetching..'} currentEpoch={0} currentEpochProposers={[]}/>
+              <SquareCard title="Current Slot" value={slotIndex ? slotIndex : 'Fetching..'} currentEpoch={0} currentEpochProposers={[]}/>
               <SquareCard title="Proposer" value={ truncatedPubkey ? truncatedPubkey : 'Fetching..'} currentEpoch={0} currentEpochProposers={[]}/>
               <SquareCard title="Relayer" value={relayer ? RelayerDisplay(relayer) : 'Fetching..'} currentEpoch={0} currentEpochProposers={[]}/>
           </dl>
