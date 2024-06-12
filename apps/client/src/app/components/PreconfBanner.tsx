@@ -19,7 +19,7 @@ export default function PreconfBanner({relayer, slotNumber, gateway, proposerPub
       <>
         <div>
           <h3 className="text-base font-semibold leading-6 text-gray-200 ">Current Preconf Details</h3>
-          <dl className="grid grid-cols-1 gap-2 sm:grid-cols-4 max-w-4xl">
+          <dl className="grid grid-cols-1 gap-2 sm:grid-cols-4 max-w-4xl mt-2">
               <SquareCard title="Slot" value={slotNumber ? slotNumber: 'Fetching..'}/>
               {/* Proposer */}
               <SquareCard title="Slot" value={proposerPubKey ? proposerPubKey: 'Fetching..'}/>

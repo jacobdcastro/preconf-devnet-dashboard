@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import MainContentWrapper from "./components/MainContentWrapper";
 import Navbar from "./components/Navbar";
@@ -7,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import SquareCard from "@/components/ui/squarecard";
 import EpochRow from "./components/EpochRow";
 import { Relayers } from "@/models/preconf";
+import LogsDisplay from "./components/LogsDisplay";
 import { useEffect } from "react";
 
 const getCurrentRelayer = () => {
@@ -35,11 +37,12 @@ export default function Home() {
   const currentRelayer = getCurrentRelayer();
   return (
     <main>
+      <img src="/gradient.png" className="absolute top-0 right-0 w-fukll h-auto" alt="orb" />
       <Navbar />
       <MainContentWrapper>
         <EpochRow />
         <PreconfBanner relayer={currentRelayer} />
-        <SquareCard />
+        <LogsDisplay />
       </MainContentWrapper>
     </main>
   );
