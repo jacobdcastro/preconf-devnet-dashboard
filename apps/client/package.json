@@ -8,9 +8,11 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "packageManager": "pnpm@8.15.6",
   "dependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@tanstack/react-query": "^5.45.0",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
