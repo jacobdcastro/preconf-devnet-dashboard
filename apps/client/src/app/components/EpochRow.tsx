@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import Slot from './Slot';
 
 type Props = {};
@@ -12,7 +12,7 @@ for (let i = 0; i < numrows; i++) {
     slots.push(<Slot key={i} />);
 }
 
-const Epoch = (props: Props) => {
+const EpochRow = (props: Props) => {
     return (
         <div className="space-y-16 py-16 xl:space-y-20">
           <div>
@@ -37,4 +37,4 @@ const Epoch = (props: Props) => {
     )
 }
 
-export default Epoch;
+export default EpochRow

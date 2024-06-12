@@ -1,9 +1,9 @@
 "use client"
-import Epoch from "./components/Epoch";
+import SquareCard from "@/components/ui/squarecard";
+import EpochList from "./components/EpochList";
 import MainContentWrapper from "./components/MainContentWrapper";
 import Navbar from "./components/Navbar";
 import PreconfBanner from "./components/PreconfBanner";
-import Image from "next/image";
 
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
     <Navbar/>
     <MainContentWrapper>
       <PreconfBanner />
-      <Epoch />
+      <SquareCard />
     </MainContentWrapper>
     </>
   );
