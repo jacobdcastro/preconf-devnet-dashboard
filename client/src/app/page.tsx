@@ -6,19 +6,14 @@ import Navbar from "./components/Navbar";
 import PreconfBanner from "./components/PreconfBanner";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import SquareCard from "@/components/ui/squarecard";
 import EpochRow from "./components/EpochRow";
-import { Relayers } from "@/interfaces/preconf";
 import LogsDisplay from "./components/LogsDisplay";
 import { useEffect } from "react";
-
-const getCurrentRelayer = () => {
-  return Relayers[3];
-};
+import { Builders, Preconfs } from "@/interfaces/preconf";
 
 
 export default function Home() {
-  const { data, isLoading, isPending, error } = useQuery({
+  const { data } = useQuery({
     queryKey: ["data"],
     queryFn: async () => {
       const { data } = await axios({
@@ -36,6 +31,10 @@ export default function Home() {
   const [currentEpochProposers, setCurrentEpochProposers] = useState([])
   const [currentProposerPubkey, setCurrentProposerPubKey] = useState('')
 
+  //todo: get current builder and preconf
+  const currentBuilder = Builders[1];
+  const currentPreconf = Preconfs[1];
+
   useEffect(() => {
       console.log(data?.slot)
       console.log(data?.slot.currentEpochProposers[data?.slot.slotIndex].pubkey)
@@ -45,17 +44,13 @@ export default function Home() {
       setCurrentProposerPubKey(data?.slot.currentEpochProposers[data?.slot.slotIndex].pubkey);
 
     }, [data, slotIndex, currentEpochProposers]);
-  
-
-
-  const currentRelayer = getCurrentRelayer();
   return (
     <main>
       <img src="/gradient.png" className="absolute top-0 right-0 w-fukll h-auto" alt="orb" />
       <Navbar />
       <MainContentWrapper>
         <EpochRow currentEpoch={currentEpoch} slotIndex={slotIndex} currentEpochProposers={currentEpochProposers} />
-        <PreconfBanner currentProposerPubkey={currentProposerPubkey} relayer={currentRelayer} slotIndex={slotIndex} currentEpoch={currentEpoch} currentEpochProposers={[]} />
+        <PreconfBanner currentProposerPubkey={currentProposerPubkey} builder={currentBuilder} slotIndex={slotIndex} preconf={currentPreconf} currentEpoch={currentEpoch} currentEpochProposers={[]} />
         <LogsDisplay />
       </MainContentWrapper>
     </main>

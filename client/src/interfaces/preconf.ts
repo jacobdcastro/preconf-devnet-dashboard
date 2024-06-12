@@ -1,18 +1,22 @@
 
-export interface IRelayerInfo {
+export interface IBuilder {
+    name: string | undefined;
+    img: any;
+}
+export interface IPreconf {
     name: string | undefined;
     img: any;
 }
 
-export interface IGatewayInfo {
-    name: string | undefined; 
+export interface IProposer {
+    name?: string;
+    pubkey: string;
 }
-
 export interface ISlot {
     currentProposerPubkey?: string;
     validatorIndex?: number;
-    relayer?: IRelayerInfo; 
-    gateway?: IGatewayInfo;
+    builder?: IBuilder; 
+    preconf?: IPreconf;
     slotIndex?: number | undefined;
     currentEpoch: number | null;
     currentEpochProposers: Object[];
@@ -29,36 +33,51 @@ export interface IEpoch {
 }
 
 
-export const RelayerNames: {[x: string]: string} = {
+export const PreconfNames: {[x: string]: string} = {
+    bolt: "Bolt",
+    primev: "Primev",
+    delegatedPreconf: "delegatedPreconf"
+}
+
+export const BuilderNames: {[x: string]: string} = {
     titan: "Titan",
     ultrasound: "Ultrasound",
-    limechain: "Limechain",
-    chainbound: "Chainbound"
 }
 
-export const ProposerPubkeyToName: {[x: string]: string} = {
-    proposer1: '0x859155dd5a22f116ae8f61b1516770f8ff41ec0ea24b8b745171b4cf34981bb7d235e7e1a739a0589e7c7ff69ede9b15',
-    proposer2: '0x859155dd5a22f116ae8f61b1516770f8ff41ec0ea24b8b745171b4cf34981bb7d235e7e1a739a0589e7c7ff69ede9b15',
-}
-
-export const Gateway: {[x: string]: string} = {
-}
-
-export const Relayers: IRelayerInfo[] = [
+export const proposerNames = [
     {
-        name: RelayerNames.titan, 
+        name: 'alice',
+        pubkey: '0x23',
+    },
+    {
+        name: 'bob',
+        pubkey: '0x9999',
+    },
+];
+
+
+export const Preconfs: IPreconf[] = [
+    { 
+        name: PreconfNames.bolt, 
+        img: '/logos/bolt.png'
+    },
+    { 
+        name: PreconfNames.primev, 
+        img: '/logos/primev.png'
+    },
+    { 
+        name: PreconfNames.delegatedPreconf, 
+        img: '/logos/delegated.png'
+    },
+]
+
+export const Builders: IBuilder[] = [
+    {
+        name: BuilderNames.titan, 
         img: '/logos/titan.jpg'
     },
     {
-        name: RelayerNames.ultrasound, 
+        name: BuilderNames.ultrasound, 
         img: '/logos/ultrasound.png'
-    },
-    {
-        name: RelayerNames.limechain, 
-        img: '/logos/limechain.png'
-    },
-    {
-        name: RelayerNames.chainbound, 
-        img: '/logos/chainbound.jpg'
     },
 ]
