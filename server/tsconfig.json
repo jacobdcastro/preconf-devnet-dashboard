@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
