@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Preconfirmation Devnet Dashboard",
-  description: "A dashboard to monitor the transaction supply chain",
+  description: "A dashboard to monitor the transaction supply chain for based sequencing",
 };
 
 export default function RootLayout({
@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className='dark bg-dark-gradient bg-center bg-cover'>
       <body className={inter.className}>{children}</body>
     </html>
   );

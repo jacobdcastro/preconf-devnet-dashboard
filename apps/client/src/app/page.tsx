@@ -1,19 +1,25 @@
 "use client"
-import Epoch from "./components/Epoch";
+import SquareCard from "@/components/ui/squarecard";
 import MainContentWrapper from "./components/MainContentWrapper";
 import Navbar from "./components/Navbar";
 import PreconfBanner from "./components/PreconfBanner";
-import Image from "next/image";
+import EpochRow from "./components/EpochRow";
+import { Relayers } from "@/models/preconf";
 
+const getCurrentRelayer = () => {
+  return Relayers[0];
+}
 
 export default function Home() {
+  const currentRelayer = getCurrentRelayer();
   return (
-    <>
+    <main>
     <Navbar/>
     <MainContentWrapper>
-      <PreconfBanner />
-      <Epoch />
+      <EpochRow />
+      <PreconfBanner relayer={currentRelayer} />
+      <SquareCard />
     </MainContentWrapper>
-    </>
+    </main>
   );
 }
