@@ -1,15 +1,27 @@
-export interface RelayerInfo {
+export interface IRelayerInfo {
     name: string | undefined;
     logoPath: string;
 }
 
-export interface GatewayInfo {
+export interface IGatewayInfo {
     name: string | undefined; 
 }
 
-export interface Preconf {
+export interface ISlot {
     proposerPubKey?: string;
-    relayer?: RelayerInfo; 
-    gateway?: GatewayInfo;
+    validatorIndex?: number;
+    relayer?: IRelayerInfo; 
+    gateway?: IGatewayInfo;
     slotNumber?: number;
+    slotStatus?: string;
+    logs?: {
+        content?: string;
+        status?: string;
+    }[];
+}
+
+export interface IEpoch {
+    slots?: ISlot[];
+    startTime?: number;
+    index?: number;
 }

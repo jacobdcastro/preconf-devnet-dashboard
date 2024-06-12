@@ -4,6 +4,7 @@ import EpochList from "./components/EpochList";
 import MainContentWrapper from "./components/MainContentWrapper";
 import Navbar from "./components/Navbar";
 import PreconfBanner from "./components/PreconfBanner";
+import EpochRow from "./components/EpochRow";
 
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
     <MainContentWrapper>
       <PreconfBanner />
       <SquareCard />
+      <EpochRow />
     </MainContentWrapper>
     </>
   );
