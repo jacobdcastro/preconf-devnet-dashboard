@@ -12,21 +12,17 @@ import { ISlot } from "@/models/preconf"
 
 interface Props extends ISlot {
   title?: string;
-  value?: string;
+  value?: any;
 }
   
 const SquareCard: FC<Props> = ({title, value}) => {
     return (
-      <Card className="my-4">
-        <CardHeader className="pb-2">
+      <Card className="p-2">
+        <CardHeader className="py-2">
           <CardDescription>{title}</CardDescription>
-          <CardTitle className="text-4xl">{value}</CardTitle>
+          <CardTitle className="text-2xl">{value}</CardTitle>
         </CardHeader>
-        {/* <CardContent>
-          <div className="text-xs text-muted-foreground">At slot {slotNumber}</div>
-        </CardContent>
-        <CardFooter>
-        </CardFooter> */}
+  
       </Card>
     )
   }

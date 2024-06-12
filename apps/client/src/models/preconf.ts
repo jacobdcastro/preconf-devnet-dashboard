@@ -29,10 +29,10 @@ export interface IEpoch {
 
 
 export const RelayerNames: {[x: string]: string} = {
-    titan: "TITAN",
-    ultrasound: "ULTRASOUND",
-    limechain: "LIMECHAIN",
-    chainbound: "CHAINBOUND"
+    titan: "Titan",
+    ultrasound: "Ultrasound",
+    limechain: "Limechain",
+    chainbound: "Chainbound"
 }
 
 export const Gateway: {[x: string]: string} = {

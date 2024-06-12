@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className='bg-light-gradient dark:bg-dark-gradient bg-center'>
+    <html lang="en" className='dark bg-dark-gradient bg-center bg-cover'>
       <body className={inter.className}>{children}</body>
     </html>
   );

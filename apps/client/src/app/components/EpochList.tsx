@@ -5,6 +5,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
 import EpochRow from './EpochRow';
 
+
+// you only need this if we want to show multiple epochs 
+
 const EpochList = () => {
 
   // const { isLoading, isError, error } = useEpochQuery();
