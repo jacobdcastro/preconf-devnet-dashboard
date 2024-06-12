@@ -17,11 +17,10 @@ const Navbar = (props: Props) => {
           <div className='relative flex flex-row items-center justify-start py-5 lg:justify-between'>
             {/* left side */}
             <div className='flex flex-row items-center'>
-              <a href='/'>
-                <span className='sr-only'>Your Company</span>
+              <a href='/' className='text-gray-50'>
                 Devnet Preconf Dashboard
               </a>
-              <nav className="flex flex-row items-center gap-5 lg:gap-6 mx-4">
+              {/* <nav className="flex flex-row items-center gap-5 lg:gap-6 mx-4">
                 {routes.map((route, index) => (
                 <Link
                     key={index}
@@ -32,7 +31,7 @@ const Navbar = (props: Props) => {
                     {route.title}
                 </Link>
                 ))}
-                </nav>
+                </nav> */}
             </div>
 
             {/* Right section on desktop */}

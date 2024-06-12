@@ -197,22 +197,22 @@ const EpochRow = () => {
         ]
     }
     return (
-        <div className="space-y-16 py-16 xl:space-y-20">
+        <div className="space-y-8 py-8 xl:space-y-20">
           <div>
-            <div className="mx-auto max-w-10xl px-4 sm:px-6 lg:px-0">
-              <h2 className="max-w-2xl text-base font-semibold leading-6 text-gray-200 lg:mx-0 lg:max-w-none">
+            <div className="max-w-6xl ">
+              <h2 className="max-w-5xl text-base font-semibold leading-6 text-gray-200 lg:mx-0 lg:max-w-none">
                 Epoch
               </h2>
             </div>
-            <div className="mt-6 overflow-hidden border-t border-gray-300">
-              <div className="mx-auto w-full">
-                <div className="mx-auto max-w-8xl lg:mx-0 ">
+            <div className="mt-6 overflow-hidden border-t border-gray-700 max-w-4xl">
+              <div className="mx-auto">
+                <div className="mx-auto max-w-6xl lg:mx-0 ">
                   <table className="w-full text-left">
                     <tbody>
                         <tr className='flex my-2 '>
                             {dummyEpoch.slots.map((slot, index) => (
                                 <td key={index} className={cn("flex mx-1", {"animate-pulse": slot?.slotStatus === "RUNNING"})}>
-                                    <div className={cn("w-8 h-8 rounded bg-green-700", {"bg-gray-300": slot?.slotStatus === "RUNNING"}, {"bg-zinc-600": slot?.slotStatus === "AHEAD"})}></div>
+                                    <div className={cn("w-5 h-8 rounded bg-green-700", {"bg-gray-300": slot?.slotStatus === "RUNNING"}, {"bg-zinc-800": slot?.slotStatus === "AHEAD"})}></div>
                                 </td>
                             ))}
                         </tr>
