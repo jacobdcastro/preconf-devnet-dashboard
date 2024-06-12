@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import { useState } from "react";
 import MainContentWrapper from "./components/MainContentWrapper";
 import Navbar from "./components/Navbar";
 import PreconfBanner from "./components/PreconfBanner";
@@ -15,6 +16,7 @@ const getCurrentRelayer = () => {
   return Relayers[0];
 };
 
+
 export default function Home() {
   const { data, isLoading, isPending, error } = useQuery({
     queryKey: ["data"],
@@ -29,10 +31,21 @@ export default function Home() {
     refetchIntervalInBackground: true,
   });
 
+  const [currentEpoch, setCurrentEpoch] = useState(null);
+  const [slotIndex, setSlotIndex] = useState(0);
+  const [currentEpochProposers, setCurrentEpochProposers] = useState([])
+  const [currentProposerPubkey, setCurrentProposerPubKey] = useState('')
+
   useEffect(() => {
-    // console.log(data);
-    // isPending && console.log("Pending");
-  }, [data, isPending]);
+      console.log(data?.slot)
+      console.log(data?.slot.currentEpochProposers[data?.slot.slotIndex].pubkey)
+      setSlotIndex(data?.slot.slotIndex + 1)
+      setCurrentEpoch(data?.slot.currentEpoch);
+      setCurrentEpochProposers(data?.slot.currentEpochProposers)
+      setCurrentProposerPubKey(data?.slot.currentEpochProposers[data?.slot.slotIndex].pubkey);
+
+    }, [data, slotIndex, currentEpochProposers]);
+  
 
 
   const currentRelayer = getCurrentRelayer();
@@ -41,8 +54,8 @@ export default function Home() {
       <img src="/gradient.png" className="absolute top-0 right-0 w-fukll h-auto" alt="orb" />
       <Navbar />
       <MainContentWrapper>
-        <EpochRow data={data} />
-        <PreconfBanner relayer={currentRelayer} />
+        <EpochRow currentEpoch={currentEpoch} slotIndex={slotIndex} currentEpochProposers={currentEpochProposers} />
+        <PreconfBanner currentProposerPubkey={currentProposerPubkey} relayer={currentRelayer} slotIndex={slotIndex} currentEpoch={null} currentEpochProposers={[]} />
         <LogsDisplay />
       </MainContentWrapper>
     </main>

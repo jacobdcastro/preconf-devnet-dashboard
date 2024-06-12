@@ -9,12 +9,13 @@ export interface IGatewayInfo {
 }
 
 export interface ISlot {
-    proposerPubKey?: string;
+    currentProposerPubkey?: string;
     validatorIndex?: number;
     relayer?: IRelayerInfo; 
     gateway?: IGatewayInfo;
-    slotIndex?: number;
-    slotStatus?: string;
+    slotIndex?: number | undefined;
+    currentEpoch: number | null;
+    currentEpochProposers: Object[];
     logs?: {
         content?: string;
         status?: string;
