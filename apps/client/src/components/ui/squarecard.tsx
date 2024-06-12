@@ -10,20 +10,23 @@ import {
 import { FC } from "react"
 import { ISlot } from "@/models/preconf"
 
-interface Props extends ISlot {}
+interface Props extends ISlot {
+  title?: string;
+  value?: string;
+}
   
-const SquareCard: FC<Props> = ({proposerPubKey = "0x123ab...4567c", slotNumber = 43}) => {
+const SquareCard: FC<Props> = ({title, value}) => {
     return (
       <Card className="my-4">
         <CardHeader className="pb-2">
-          <CardDescription>Proposer</CardDescription>
-          <CardTitle className="text-4xl">{proposerPubKey}</CardTitle>
+          <CardDescription>{title}</CardDescription>
+          <CardTitle className="text-4xl">{value}</CardTitle>
         </CardHeader>
-        <CardContent>
+        {/* <CardContent>
           <div className="text-xs text-muted-foreground">At slot {slotNumber}</div>
         </CardContent>
         <CardFooter>
-        </CardFooter>
+        </CardFooter> */}
       </Card>
     )
   }
