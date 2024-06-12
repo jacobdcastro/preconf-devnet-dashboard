@@ -1,5 +1,9 @@
 
-export interface IRelayerInfo {
+export interface IBuilder {
+    name: string | undefined;
+    img: any;
+}
+export interface IPreconf {
     name: string | undefined;
     img: any;
 }
@@ -8,15 +12,11 @@ export interface IProposer {
     name?: string;
     pubkey: string;
 }
-export interface IGatewayInfo {
-    name: string | undefined; 
-}
-
 export interface ISlot {
     currentProposerPubkey?: string;
     validatorIndex?: number;
-    relayer?: IRelayerInfo; 
-    gateway?: IGatewayInfo;
+    builder?: IBuilder; 
+    preconf?: IPreconf;
     slotIndex?: number | undefined;
     currentEpoch: number | null;
     currentEpochProposers: Object[];
@@ -33,11 +33,15 @@ export interface IEpoch {
 }
 
 
-export const RelayerNames: {[x: string]: string} = {
+export const PreconfNames: {[x: string]: string} = {
+    bolt: "Bolt",
+    primev: "Primev",
+    delegatedPreconf: "delegatedPreconf"
+}
+
+export const BuilderNames: {[x: string]: string} = {
     titan: "Titan",
     ultrasound: "Ultrasound",
-    limechain: "Limechain",
-    chainbound: "Chainbound"
 }
 
 export const proposerNames = [
@@ -52,24 +56,28 @@ export const proposerNames = [
 ];
 
 
-export const Gateway: {[x: string]: string} = {
-}
+export const Preconfs: IPreconf[] = [
+    { 
+        name: PreconfNames.bolt, 
+        img: '/logos/bolt.png'
+    },
+    { 
+        name: PreconfNames.primev, 
+        img: '/logos/primev.png'
+    },
+    { 
+        name: PreconfNames.delegatedPreconf, 
+        img: '/logos/delegated.png'
+    },
+]
 
-export const Relayers: IRelayerInfo[] = [
+export const Builders: IBuilder[] = [
     {
-        name: RelayerNames.titan, 
+        name: BuilderNames.titan, 
         img: '/logos/titan.jpg'
     },
     {
-        name: RelayerNames.ultrasound, 
+        name: BuilderNames.ultrasound, 
         img: '/logos/ultrasound.png'
-    },
-    {
-        name: RelayerNames.limechain, 
-        img: '/logos/limechain.png'
-    },
-    {
-        name: RelayerNames.chainbound, 
-        img: '/logos/chainbound.jpg'
     },
 ]
