@@ -36,6 +36,11 @@ export const RelayerNames: {[x: string]: string} = {
     chainbound: "Chainbound"
 }
 
+export const ProposerPubkeyToName: {[x: string]: string} = {
+    proposer1: '0x859155dd5a22f116ae8f61b1516770f8ff41ec0ea24b8b745171b4cf34981bb7d235e7e1a739a0589e7c7ff69ede9b15',
+    proposer2: '0x859155dd5a22f116ae8f61b1516770f8ff41ec0ea24b8b745171b4cf34981bb7d235e7e1a739a0589e7c7ff69ede9b15',
+}
+
 export const Gateway: {[x: string]: string} = {
 }
 

@@ -8,12 +8,12 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import SquareCard from "@/components/ui/squarecard";
 import EpochRow from "./components/EpochRow";
-import { Relayers } from "@/models/preconf";
+import { Relayers } from "@/interfaces/preconf";
 import LogsDisplay from "./components/LogsDisplay";
 import { useEffect } from "react";
 
 const getCurrentRelayer = () => {
-  return Relayers[0];
+  return Relayers[3];
 };
 
 
@@ -55,7 +55,7 @@ export default function Home() {
       <Navbar />
       <MainContentWrapper>
         <EpochRow currentEpoch={currentEpoch} slotIndex={slotIndex} currentEpochProposers={currentEpochProposers} />
-        <PreconfBanner currentProposerPubkey={currentProposerPubkey} relayer={currentRelayer} slotIndex={slotIndex} currentEpoch={null} currentEpochProposers={[]} />
+        <PreconfBanner currentProposerPubkey={currentProposerPubkey} relayer={currentRelayer} slotIndex={slotIndex} currentEpoch={currentEpoch} currentEpochProposers={[]} />
         <LogsDisplay />
       </MainContentWrapper>
     </main>
