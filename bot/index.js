@@ -3,7 +3,7 @@ import axios from "axios";
 const EVENTS_ENDPOINT = "http://localhost:8080/events";
 const BEACON_API_BASE_URL = "http://18.199.195.154:32995";
 const SLOT_DURATION = 12000; // 12 seconds
-const TXN_PER_SLOT = 5;
+const TXN_PER_SLOT = 20;
 
 const getCurrentSlot = async () => {
   const genesisRes = await axios.get(
@@ -85,7 +85,7 @@ const startSpamming = async () => {
   setInterval(async () => {
     slot = await getCurrentSlot(); // Ensure we get the current slot each interval
     await spamTransactions(slot);
-    setTimeout(() => sendBlockConfirmed(slot), SLOT_DURATION - 500); // Send block_confirmed 500ms before the end of the slot
+    setTimeout(() => sendBlockConfirmed(slot), SLOT_DURATION - 1000); // Send block_confirmed 500ms before the end of the slot
   }, SLOT_DURATION);
 };
 

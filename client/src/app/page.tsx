@@ -24,9 +24,9 @@ export default function Home() {
   // const { data } = useQuery<DataPayload>({
   //   queryKey: ["data", { slot: currentSlot }],
   //   queryFn: async () => {
-  //     const { data } = await axios<DataPayload>({
+  //     const { data } = await axios<{}>({
   //       method: "GET",
-  //       url: process.env.NEXT_PUBLIC_PRECONF_DASHBOARD_API_BASE_URL + "/data",
+  //       url: process.env.NEXT_PUBLIC_PRECONF_DASHBOARD_API_BASE_URL + "/epoch",
   //     });
   //     // console.log(data);
   //     setCurrentSlot(data?.slot.currentSlot);
@@ -62,26 +62,30 @@ export default function Home() {
         <Navbar />
         <MainContentWrapper>
           <EpochRow />
-          <div className='flex gap-x-6 w-full lg:min-w-[1060px]'>
-            <div className='flex flex-col'>
+          <div className="flex gap-x-6 w-full lg:min-w-[1060px]">
+            <div className="flex flex-col">
               <PreconfBanner
                 builder={currentBuilder}
                 preconf={currentPreconf}
-                slotIndex={data?.slot.slotIndex - 1}
-                title='Previous Slot Details'
+                title="Previous Slot Details"
+                slot={data?.slot?.currentSlot}
               />
-              <LogsDisplay title="Previous Slot" />
+              <LogsDisplay
+                title="Previous Slot"
+                preconfTxns={data?.prevSlotPreconfTxns}
+              />
             </div>
-            <div className='flex flex-col'>
+            <div className="flex flex-col">
               <PreconfBanner
                 builder={currentBuilder}
                 preconf={currentPreconf}
-                slotIndex={data?.slot.slotIndex}
-                title='Current Slot Details'
-
-
-                />
-              <LogsDisplay title="Current Slot" />
+                title="Current Slot Details"
+                slot={data?.slot?.currentSlot + 1}
+              />
+              <LogsDisplay
+                title="Current Slot"
+                preconfTxns={data?.currentSlotPreconfTxns}
+              />
             </div>
           </div>
         </MainContentWrapper>

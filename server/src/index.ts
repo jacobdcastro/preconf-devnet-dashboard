@@ -71,43 +71,48 @@ interface PreconfConfirmedEvent {
 
 let lastSlot = 0;
 
-const getCurrentSlot = async () => {
+const handleSlotChange = async (currentSlot: number) => {
+  if (currentSlot !== lastSlot) {
+    lastSlot = currentSlot;
+  }
+};
+
+const updateEventInArray = (
+  array: PreconfRequestedEvent[],
+  event: PreconfRequestedEvent
+) => {
+  const index = array.findIndex((e) => e.tx_hash === event.tx_hash);
+  if (index !== -1) {
+    array[index] = event;
+  } else {
+    array.push(event);
+  }
+};
+
+app.get("/epoch", async (req: Request, res: Response) => {
   const genesisRes = await axios.get(
     BEACON_API_BASE_URL + "/eth/v1/beacon/genesis"
   );
   const genesisTimeSeconds = parseInt(genesisRes.data.data.genesis_time);
   const currentTimeSeconds = Math.floor(Date.now() / 1000);
 
-  return Math.floor((currentTimeSeconds - genesisTimeSeconds) / 12);
-};
+  const currentSlot = Math.floor(
+    (currentTimeSeconds - genesisTimeSeconds) / 12
+  );
+  const currentEpoch = Math.floor(currentSlot / 32);
 
-const handleSlotChange = async (currentSlot: number) => {
-  if (currentSlot !== lastSlot) {
-    const previousSlot = currentSlot - 1;
-    const prevConfirmedKey = `${previousSlot}_confirmed`;
-    const prevConfirmedEvent = await redis.get(prevConfirmedKey);
+  const proposerRes = await axios.get(
+    BEACON_API_BASE_URL + "/eth/v1/validator/duties/proposer/" + currentEpoch
+  );
 
-    if (!prevConfirmedEvent) {
-      const prevKeys = await redis.keys(`${previousSlot}_*`);
-      for (const key of prevKeys) {
-        const event = await redis.get(key);
-        if (event) {
-          const parsedEvent = JSON.parse(event);
-          const newKey = `${currentSlot}_${parsedEvent.tx_hash}`;
-          parsedEvent.slot = currentSlot;
-          await redis.set(
-            newKey,
-            JSON.stringify(parsedEvent),
-            "EX",
-            EXPIRE_TIME
-          );
-          await redis.del(key);
-        }
-      }
-    }
-    lastSlot = currentSlot;
-  }
-};
+  res.json({
+    genesisTimeSeconds,
+    currentEpoch,
+    currentSlot,
+    slotIndex: currentSlot % 32,
+    currentEpochProposers: proposerRes.data.data,
+  });
+});
 
 app.post("/events/preconfs/requested", async (req: Request, res: Response) => {
   const event: PreconfRequestedEvent = {
@@ -166,6 +171,8 @@ app.post("/events/preconfs/confirmed", async (req: Request, res: Response) => {
 
   const { slot, tx_hashes } = event;
 
+  await handleSlotChange(slot);
+
   const key = `${slot}_confirmed`;
   await redis.set(key, JSON.stringify(event), "EX", EXPIRE_TIME);
 
@@ -174,7 +181,7 @@ app.post("/events/preconfs/confirmed", async (req: Request, res: Response) => {
     const existingEvent = await redis.get(txKey);
     if (existingEvent) {
       const parsedEvent = JSON.parse(existingEvent);
-      parsedEvent.included = true;
+      parsedEvent.included = true; // Ensure 'included' is set to true for all txns
       await redis.set(txKey, JSON.stringify(parsedEvent), "EX", EXPIRE_TIME);
     }
   }
@@ -183,6 +190,7 @@ app.post("/events/preconfs/confirmed", async (req: Request, res: Response) => {
     const keys = await redis.keys(`${slot}_*`);
     for (const key of keys) {
       if (key === `${slot}_confirmed`) continue; // Skip the confirmed event key
+      if (!key.startsWith(`${slot}_`)) continue; // Ensure keys are filtered by the current slot
       const existingEvent = await redis.get(key);
       if (existingEvent) {
         const parsedEvent = JSON.parse(existingEvent);
@@ -208,7 +216,7 @@ const server = app.listen(PORT, () => {
 
 const wss = new WebSocketServer({ server });
 
-let clients = [];
+let clients: WebSocket[] = [];
 
 wss.on("connection", (ws) => {
   clients.push(ws);
@@ -225,59 +233,74 @@ wss.on("connection", (ws) => {
 const notifyClients = async () => {
   let data: any = {
     currentTimestampSeconds: Math.floor(Date.now() / 1000),
-    preconfTxns: [],
-    confirmedBlock: null,
   };
 
   try {
-    const genesisRes = await axios.get(
+    const currentSlot = lastSlot; // Use the lastSlot as the current slot
+
+    await handleSlotChange(currentSlot);
+
+    const currentSlotPreconfTxns: PreconfRequestedEvent[] = [];
+    const prevSlotPreconfTxns: PreconfRequestedEvent[] = [];
+    let prevSlotConfirmedBlock: PreconfConfirmedEvent | null = null;
+
+    try {
+      const currentKeys = await redis.keys(`${currentSlot}_*`);
+      for (const key of currentKeys) {
+        if (key === `${currentSlot}_confirmed`) continue;
+        if (!key.startsWith(`${currentSlot}_`)) continue;
+        const event = await redis.get(key);
+        if (event) currentSlotPreconfTxns.push(JSON.parse(event));
+      }
+
+      currentSlotPreconfTxns.sort((a, b) => b.timestamp - a.timestamp);
+
+      const prevKeys = await redis.keys(`${currentSlot - 1}_*`);
+      for (const key of prevKeys) {
+        if (key === `${currentSlot - 1}_confirmed`) continue;
+        if (!key.startsWith(`${currentSlot - 1}_`)) continue;
+        const event = await redis.get(key);
+        if (event) prevSlotPreconfTxns.push(JSON.parse(event));
+      }
+
+      prevSlotPreconfTxns.sort((a, b) => b.timestamp - a.timestamp);
+
+      const prevConfirmedEvent = await redis.get(
+        `${currentSlot - 1}_confirmed`
+      );
+      if (prevConfirmedEvent) {
+        prevSlotConfirmedBlock = JSON.parse(prevConfirmedEvent);
+      }
+    } catch (error) {
+      console.error("Error querying Redis:", error);
+    }
+
+    const epochRes = await axios.get(
       BEACON_API_BASE_URL + "/eth/v1/beacon/genesis"
     );
-    const genesisTimeSeconds = parseInt(genesisRes.data.data.genesis_time);
+    const genesisTimeSeconds = parseInt(epochRes.data.data.genesis_time);
     const currentTimeSeconds = Math.floor(Date.now() / 1000);
 
-    const currentSlot = Math.floor(
+    const currentSlotCalculated = Math.floor(
       (currentTimeSeconds - genesisTimeSeconds) / 12
     );
-    const currentEpoch = Math.floor(currentSlot / 32);
+    const currentEpoch = Math.floor(currentSlotCalculated / 32);
+    const slotIndex = currentSlotCalculated % 32;
 
     const proposerRes = await axios.get(
       BEACON_API_BASE_URL + "/eth/v1/validator/duties/proposer/" + currentEpoch
     );
 
+    data.currentSlotPreconfTxns = currentSlotPreconfTxns;
+    data.prevSlotPreconfTxns = prevSlotPreconfTxns;
+    data.prevSlotConfirmedBlock = prevSlotConfirmedBlock;
     data.slot = {
       genesisTimeSeconds,
       currentEpoch,
-      currentSlot,
-      slotIndex: currentSlot % 32,
+      currentSlot: currentSlotCalculated,
+      slotIndex,
       currentEpochProposers: proposerRes.data.data,
     };
-
-    await handleSlotChange(currentSlot);
-
-    try {
-      const keys = await redis.keys(`${currentSlot}_*`);
-
-      const preconfTxns = [];
-
-      for (const key of keys) {
-        if (key === `${currentSlot}_confirmed`) continue; // Skip the confirmed event key
-        const event = await redis.get(key);
-        if (event) preconfTxns.push(JSON.parse(event));
-      }
-
-      preconfTxns.sort((a, b) => a.timestamp - b.timestamp);
-
-      data.preconfTxns = preconfTxns;
-
-      const keyConfirmed = `${currentSlot}_confirmed`;
-      const confirmedEvent = await redis.get(keyConfirmed);
-      if (confirmedEvent) {
-        data.confirmedBlock = JSON.parse(confirmedEvent);
-      }
-    } catch (error) {
-      console.error("Error querying Redis:", error);
-    }
   } catch (error) {
     console.error("Error during data processing:", error);
   }

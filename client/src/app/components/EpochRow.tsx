@@ -7,8 +7,8 @@ import LookAheadToolTip from "./Lookahead";
 
 const EpochRow = () => {
   const data = useContext(ApiDataContext);
-  const slotIndex = data?.slot.slotIndex - 1;
-  const currentEpochProposers = data?.slot.currentEpochProposers;
+  const slotIndex = data?.slot?.slotIndex;
+  const currentEpochProposers = data?.slot?.currentEpochProposers;
 
   return (
     <div className="space-y-8 py-8 xl:space-y-20 w-full">
@@ -35,17 +35,18 @@ const EpochRow = () => {
                 <div className="grid grid-cols-[repeat(32,_minmax(0,_1fr))] gap-[1.2px] my-2">
                   {currentEpochProposers && slotIndex
                     ? currentEpochProposers.map((slot, index) => (
-                          <div key={index}
-                            className={cn("w-[32px] h-10 rounded", {
-                              "animate-pulse":
-                                parseInt(slot.slot) % 32 === slotIndex,
-                              "bg-green-700":
-                                parseInt(slot.slot) % 32 !== slotIndex,
-                              "bg-gray-300":
-                                parseInt(slot.slot) % 32 === slotIndex,
-                              "bg-zinc-800": parseInt(slot.slot) % 32 > slotIndex,
-                            })}
-                          ></div>
+                        <div
+                          key={index}
+                          className={cn("w-[32px] h-10 rounded", {
+                            "animate-pulse":
+                              parseInt(slot.slot) % 32 === slotIndex,
+                            "bg-green-700":
+                              parseInt(slot.slot) % 32 !== slotIndex,
+                            "bg-gray-300":
+                              parseInt(slot.slot) % 32 === slotIndex,
+                            "bg-zinc-800": parseInt(slot.slot) % 32 > slotIndex,
+                          })}
+                        ></div>
                       ))
                     : null}
                 </div>
