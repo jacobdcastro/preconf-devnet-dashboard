@@ -197,7 +197,7 @@ app.post("/events/preconfs/confirmed", async (req: Request, res: Response) => {
         if (parsedEvent.included === null) {
           parsedEvent.included = false;
         }
-        parsedEvent.preconfirmed = true;
+        // parsedEvent.preconfirmed = true;
         await redis.set(key, JSON.stringify(parsedEvent), "EX", EXPIRE_TIME);
       }
     }
