@@ -47,9 +47,10 @@ export const LogsDisplay = ({ title, preconfTxns }) => {
                             "bg-zinc-900": index % 2 === 0,
                           })}
                         >
-                          {pre.timestamp
+                          {/* {pre.timestamp
                             ? new Date(pre.timestamp).toLocaleTimeString()
-                            : null}
+                            : null} */}
+                            {pre.timestamp}
                         </TableCell>
                         <TableCell
                           className={cn("bg-zinc-800 p-2", {

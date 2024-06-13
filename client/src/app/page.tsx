@@ -69,6 +69,7 @@ export default function Home() {
                 preconf={currentPreconf}
                 title="Previous Slot Details"
                 slot={data?.slot?.currentSlot}
+                
               />
               <LogsDisplay
                 title="Previous Slot"
