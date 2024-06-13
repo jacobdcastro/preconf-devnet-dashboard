@@ -15,7 +15,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ApiDataContext } from "../page";
 
 export const LogsDisplay = ({ title, preconfTxns }) => {
   return (

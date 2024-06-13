@@ -1,9 +1,9 @@
 "use client";
 import React, { useContext } from "react";
 import { cn } from "@/lib/utils";
-import { ApiDataContext } from "../page";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import LookAheadToolTip from "./Lookahead";
+import { ApiDataContext } from "@/components/apiDataContext";
 
 const EpochRow = () => {
   const data = useContext(ApiDataContext);

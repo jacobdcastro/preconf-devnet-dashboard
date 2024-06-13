@@ -3,7 +3,7 @@ import SquareCard from "@/components/ui/squarecard";
 import { IBuilder, IPreconf, ISlot, proposerNames } from "@/interfaces/preconf";
 import { truncateAddress } from "../utils/truncate";
 import { useContext } from "react";
-import { ApiDataContext } from "../page";
+import { ApiDataContext } from "@/components/apiDataContext";
 import { findProposerNameByValidatorIndex } from "../utils/getName";
 
 
