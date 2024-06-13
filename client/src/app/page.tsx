@@ -11,8 +11,7 @@ import LogsDisplay from "./components/LogsDisplay";
 import { Builders, Preconfs } from "@/interfaces/preconf";
 import { DataPayload } from "@/interfaces/api";
 import useWebSocket from "@/hooks/useWebsocket";
-
-export const ApiDataContext = createContext<DataPayload>(null);
+import { ApiDataContext } from "@/components/apiDataContext";
 
 export default function Home() {
   const [currentSlot, setCurrentSlot] = useState(0);
