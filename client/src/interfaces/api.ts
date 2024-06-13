@@ -37,8 +37,9 @@ interface ConfirmedBlock {
 interface DataPayload {
   currentTimestampSeconds: number;
   slot: SlotData;
-  preconfTxns: PreconfTransaction[];
-  confirmedBlock: ConfirmedBlock | null;
+  currentSlotPreconfTxns: PreconfTransaction[];
+  prevSlotPreconfTxns: PreconfTransaction[];
+  prevSlotConfirmedBlock: ConfirmedBlock | null;
 }
 
 export type { SlotData, PreconfTransaction, ConfirmedBlock, DataPayload };
@@ -52,6 +53,7 @@ export const placeholderDataPayload: DataPayload = {
     slotIndex: 0,
     currentEpochProposers: [],
   },
-  preconfTxns: [],
-  confirmedBlock: null,
+  currentSlotPreconfTxns: [],
+  prevSlotPreconfTxns: [],
+  prevSlotConfirmedBlock: null,
 };

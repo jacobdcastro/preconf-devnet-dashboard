@@ -275,9 +275,32 @@ const notifyClients = async () => {
       console.error("Error querying Redis:", error);
     }
 
+    const epochRes = await axios.get(
+      BEACON_API_BASE_URL + "/eth/v1/beacon/genesis"
+    );
+    const genesisTimeSeconds = parseInt(epochRes.data.data.genesis_time);
+    const currentTimeSeconds = Math.floor(Date.now() / 1000);
+
+    const currentSlotCalculated = Math.floor(
+      (currentTimeSeconds - genesisTimeSeconds) / 12
+    );
+    const currentEpoch = Math.floor(currentSlotCalculated / 32);
+    const slotIndex = currentSlotCalculated % 32;
+
+    const proposerRes = await axios.get(
+      BEACON_API_BASE_URL + "/eth/v1/validator/duties/proposer/" + currentEpoch
+    );
+
     data.currentSlotPreconfTxns = currentSlotPreconfTxns;
     data.prevSlotPreconfTxns = prevSlotPreconfTxns;
     data.prevSlotConfirmedBlock = prevSlotConfirmedBlock;
+    data.slot = {
+      genesisTimeSeconds,
+      currentEpoch,
+      currentSlot: currentSlotCalculated,
+      slotIndex,
+      currentEpochProposers: proposerRes.data.data,
+    };
   } catch (error) {
     console.error("Error during data processing:", error);
   }

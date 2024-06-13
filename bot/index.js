@@ -3,7 +3,7 @@ import axios from "axios";
 const EVENTS_ENDPOINT = "http://localhost:8080/events";
 const BEACON_API_BASE_URL = "http://18.199.195.154:32995";
 const SLOT_DURATION = 12000; // 12 seconds
-const TXN_PER_SLOT = 5;
+const TXN_PER_SLOT = 20;
 
 const getCurrentSlot = async () => {
   const genesisRes = await axios.get(

@@ -14,18 +14,9 @@ const displayBrand = (item: IBuilder | IPreconf) => {
   );
 };
 
-export default function PreconfBanner({ builder, preconf, title }) {
+export default function PreconfBanner({ builder, preconf, title, slot }) {
   const data = useContext(ApiDataContext);
-  const slotIndex = data?.slot?.slotIndex - 1;
-  const currentSlot = data?.slot?.currentSlot;
-  const currentEpochProposers = data?.slot?.currentEpochProposers;
-  console.log(data);
-
-  // console.log(data);
-  // console.log(currentEpochProposers);
-
-  // replace this with real mapping
-  // console.log(getNameByPubkey(proposerNames, '0x23'));
+  const slotIndex = data?.slot?.slotIndex || null;
 
   return (
     <>
@@ -34,16 +25,7 @@ export default function PreconfBanner({ builder, preconf, title }) {
           {title}
         </h3>
         <dl className="grid grid-cols-1 gap-2 sm:grid-cols-2 mt-2">
-          <SquareCard
-            title="Slot"
-            value={
-              slotIndex > 0
-                ? slotIndex
-                : slotIndex < 0
-                ? "No previous slot"
-                : "Fetching..."
-            }
-          />
+          <SquareCard title="Slot" value={slot || "Fetching..."} />
           <SquareCard
             title="Proposer"
             value={

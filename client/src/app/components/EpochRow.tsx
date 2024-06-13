@@ -7,7 +7,7 @@ import LookAheadToolTip from "./Lookahead";
 
 const EpochRow = () => {
   const data = useContext(ApiDataContext);
-  const slotIndex = data?.slot?.slotIndex - 1;
+  const slotIndex = data?.slot?.slotIndex;
   const currentEpochProposers = data?.slot?.currentEpochProposers;
 
   return (
