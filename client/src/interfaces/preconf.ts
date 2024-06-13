@@ -52,7 +52,7 @@ export const proposerNames: IPreconf[] = [
     {
         name: 'Bolt',
         validatorIndices: boltValidatorIndices,
-        img: '/logos/bolt.png'
+        img: '/logos/bolt.svg'
     },
     {
         name: 'Titan',
