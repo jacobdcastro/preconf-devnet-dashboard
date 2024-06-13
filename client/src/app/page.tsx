@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import MainContentWrapper from "./components/MainContentWrapper";
 import Navbar from "./components/Navbar";
 import PreconfBanner from "./components/PreconfBanner";
@@ -16,7 +16,7 @@ import { ApiDataContext } from "@/components/apiDataContext";
 export default function Home() {
   const [currentSlot, setCurrentSlot] = useState(0);
   const [currentEpoch, setCurrentEpoch] = useState(0);
-  const [slotIndex, setSlotIndex] = useState(0);
+  // const [slotIndex, setSlotIndex] = useState(0);
   const [currentEpochProposers, setCurrentEpochProposers] = useState([]);
   const [currentProposerPubkey, setCurrentProposerPubKey] = useState("");
 
@@ -46,12 +46,27 @@ export default function Home() {
     process.env.NEXT_PUBLIC_PRECONF_DASHBOARD_API_BASE_URL
   );
 
+  const [slotIndexInEpoch, setSlotIndexInEpoch] = useState(0);
+
+  const slotIndexEpoch = data?.slot?.slotIndex;
+  const slotIndexFromTxn = data?.currentSlotPreconfTxns[0]?.slot % 32;
+
+  useEffect(() => {
+    if (slotIndexFromTxn && slotIndexEpoch) {
+      setSlotIndexInEpoch(
+        slotIndexEpoch <= slotIndexFromTxn % 32
+          ? slotIndexFromTxn % 32
+          : slotIndexEpoch
+      );
+    }
+  }, [slotIndexEpoch, slotIndexFromTxn]);
+
   //todo: get current builder and preconf
   const currentBuilder = Builders[1];
   const currentPreconf = Preconfs[1];
 
   return (
-    <ApiDataContext.Provider value={data}>
+    <ApiDataContext.Provider value={{ ...data, slotIndexInEpoch }}>
       <main>
         <img
           src="/gradient.png"
