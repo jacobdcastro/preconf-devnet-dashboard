@@ -92,8 +92,8 @@ export const LogsDisplay = ({ title, preconfTxns, isCurrent }) => {
                           <Badge
                             variant="default"
                             className={cn({
-                              "bg-yellow-400": !pre.included,
-                              "bg-green-600": pre.included,
+                              "bg-yellow-400": !(!isCurrent && pre.included),
+                              "bg-green-600": !isCurrent && pre.included,
                             })}
                           >
                             {!isCurrent && pre.included
