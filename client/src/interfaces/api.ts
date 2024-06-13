@@ -40,6 +40,7 @@ interface DataPayload {
   currentSlotPreconfTxns: PreconfTransaction[];
   prevSlotPreconfTxns: PreconfTransaction[];
   prevSlotConfirmedBlock: ConfirmedBlock | null;
+  slotIndexInEpoch?: number;
 }
 
 export type { SlotData, PreconfTransaction, ConfirmedBlock, DataPayload };
