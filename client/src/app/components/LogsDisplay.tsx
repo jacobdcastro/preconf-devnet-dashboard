@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -15,8 +14,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { truncateAddress } from "../utils/truncate";
 
 export const LogsDisplay = ({ title, preconfTxns }) => {
+
   return (
     <div className="flex">
       <Card className="mt-4 h-full">
@@ -55,7 +56,7 @@ export const LogsDisplay = ({ title, preconfTxns }) => {
                             "bg-zinc-900": index % 2 === 0,
                           })}
                         >
-                          {pre.tx_hash}
+                          {truncateAddress({address: pre.tx_hash, firstCharCount: 4, lastCharCount: 3})}
                         </TableCell>
                         <TableCell
                           key={"previous" + index}
