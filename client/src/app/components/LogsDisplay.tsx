@@ -1,9 +1,5 @@
 import React, { useContext } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import {
   Table,
@@ -16,8 +12,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { truncateAddress } from "../utils/truncate";
 
-export const LogsDisplay = ({ title, preconfTxns }) => {
-
+export const LogsDisplay = ({ title, preconfTxns, isCurrent }) => {
   return (
     <div className="flex">
       <Card className="mt-4 h-full">
@@ -56,7 +51,11 @@ export const LogsDisplay = ({ title, preconfTxns }) => {
                             "bg-zinc-900": index % 2 === 0,
                           })}
                         >
-                          {truncateAddress({address: pre.tx_hash, firstCharCount: 4, lastCharCount: 3})}
+                          {truncateAddress({
+                            address: pre.tx_hash,
+                            firstCharCount: 4,
+                            lastCharCount: 3,
+                          })}
                         </TableCell>
                         <TableCell
                           key={"previous" + index}
@@ -97,7 +96,9 @@ export const LogsDisplay = ({ title, preconfTxns }) => {
                               "bg-green-600": pre.included,
                             })}
                           >
-                            {pre.included ? "Included" : "Awaiting"}
+                            {!isCurrent && pre.included
+                              ? "Included"
+                              : "Awaiting"}
                           </Badge>
                         </TableCell>
                       </TableRow>

@@ -114,6 +114,7 @@ export default function Home() {
               <LogsDisplay
                 title="Previous Slot"
                 preconfTxns={data?.prevSlotPreconfTxns}
+                isCurrent={false}
               />
             </div>
             <div className="flex flex-col">
@@ -125,6 +126,7 @@ export default function Home() {
               <LogsDisplay
                 title="Current Slot"
                 preconfTxns={data?.currentSlotPreconfTxns}
+                isCurrent={true}
               />
             </div>
           </div>
