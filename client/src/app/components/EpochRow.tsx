@@ -11,6 +11,8 @@ const EpochRow = () => {
   const slotIndex = data?.slot.slotIndex - 1;
   const currentEpochProposers = data?.slot.currentEpochProposers;
 
+  console.log(data);
+
   return (
     <div className="space-y-8 py-8 xl:space-y-20 max-w-6xl">
       <div>
@@ -39,10 +41,13 @@ const EpochRow = () => {
                         <div
                           key={index}
                           className={cn("h-10 rounded", {
-                            // "animate-pulse": slot.slot % 32 === slotIndex,
-                            // "bg-green-700": slot.slot % 32 !== slotIndex,
-                            // "bg-gray-300": slot.slot % 32 === slotIndex,
-                            // "bg-zinc-800": slot.slot % 32 > slotIndex,
+                            "animate-pulse":
+                              parseInt(slot.slot) % 32 === slotIndex,
+                            "bg-green-700":
+                              parseInt(slot.slot) % 32 !== slotIndex,
+                            "bg-gray-300":
+                              parseInt(slot.slot) % 32 === slotIndex,
+                            "bg-zinc-800": parseInt(slot.slot) % 32 > slotIndex,
                           })}
                         ></div>
                       ))

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Card,
   CardContent,
@@ -16,14 +16,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { ApiDataContext } from "../page";
 
-interface Props extends ISlot {
-  requestedEvents: any[];
-  responseEvents: any[];
-  confirmedBlock: {};
-}
+export default function LogsDisplay() {
+  const data = useContext(ApiDataContext);
 
-export default function LogsDisplay({ requestedEvents }: Props) {
+  const preconfTxns = data?.preconfTxns;
+
   return (
     <Card className="mt-4 max-w-4xl h-full">
       <CardHeader>
@@ -44,8 +43,8 @@ export default function LogsDisplay({ requestedEvents }: Props) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {requestedEvents
-                ? requestedEvents.map((log, index) => (
+              {preconfTxns
+                ? preconfTxns.map((pre, index) => (
                     <TableRow key={index} className="border-zinc-800">
                       <TableCell
                         key={index}
@@ -53,7 +52,7 @@ export default function LogsDisplay({ requestedEvents }: Props) {
                           "bg-zinc-900": index % 2 === 0,
                         })}
                       >
-                        {log.timestamp}
+                        {pre.timestamp}
                       </TableCell>
                       <TableCell
                         key={index}
@@ -61,7 +60,7 @@ export default function LogsDisplay({ requestedEvents }: Props) {
                           "bg-zinc-900": index % 2 === 0,
                         })}
                       >
-                        {log.tx_hash}
+                        {pre.tx_hash}
                       </TableCell>
                       <TableCell
                         key={index}
@@ -69,7 +68,7 @@ export default function LogsDisplay({ requestedEvents }: Props) {
                           "bg-zinc-900": index % 2 === 0,
                         })}
                       >
-                        {log.slot}
+                        {pre.slot}
                       </TableCell>
                       <TableCell
                         key={index}
@@ -77,7 +76,13 @@ export default function LogsDisplay({ requestedEvents }: Props) {
                           "bg-zinc-900": index % 2 === 0,
                         })}
                       >
-                        <Badge variant="outline">{log.slot}</Badge>
+                        <Badge variant="outline">
+                          {pre.requested
+                            ? "Received"
+                            : pre.preconfirmed
+                            ? "Preconfirmed"
+                            : "Unknown"}
+                        </Badge>
                       </TableCell>
                       <TableCell
                         key={index}
@@ -85,7 +90,15 @@ export default function LogsDisplay({ requestedEvents }: Props) {
                           "bg-zinc-900": index % 2 === 0,
                         })}
                       >
-                        <Badge variant="default">yes</Badge>
+                        <Badge
+                          variant="default"
+                          className={cn({
+                            "bg-yellow-400": !pre.included,
+                            "bg-green-600": pre.included,
+                          })}
+                        >
+                          {pre.included ? "Included" : "Awaiting"}
+                        </Badge>
                       </TableCell>
                     </TableRow>
                   ))

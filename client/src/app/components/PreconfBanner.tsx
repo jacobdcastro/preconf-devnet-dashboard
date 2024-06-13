@@ -30,7 +30,10 @@ export default function PreconfBanner({
   // console.log(getNameByPubkey(proposerNames, '0x23'));
 
   const truncatedPubkey = currentProposerPubkey
-    ? truncateAddress({ address: currentProposerPubkey, firstCharCount: 5 })
+    ? truncateAddress({
+        address: currentProposerPubkey || "",
+        firstCharCount: 5,
+      })
     : null;
 
   return (
