@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import SquareCard from "@/components/ui/squarecard";
-import { IBuilder, IPreconf, ISlot, proposerNames } from "@/interfaces/preconf";
+import { IBuilder, IPreconf, proposerNames } from "@/interfaces/preconf";
 import { truncateAddress } from "../utils/truncate";
 import { useContext } from "react";
 import { ApiDataContext } from "@/components/apiDataContext";
-import { findProposerNameByValidatorIndex } from "../utils/getName";
+import { findProposerByValidatorIndex, findProposerNameByValidatorIndex } from "../utils/getName";
 
 
 export const displayBrand = (item: IBuilder | IPreconf) => {
@@ -20,11 +20,11 @@ export default function PreconfBanner({ builder, preconf, title, slot}) {
   const data = useContext(ApiDataContext);
   const slotIndex = data?.slot?.slotIndex || null;
   const currentValidatorIndex = data?.slot?.currentEpochProposers[slotIndex]?.validator_index;
-  const currentProposerName = findProposerNameByValidatorIndex(proposerNames, currentValidatorIndex);
+  const currentProposer = findProposerByValidatorIndex(proposerNames, currentValidatorIndex)
 
   const displayProposer = () => {
-    if (currentProposerName) {
-      return currentProposerName
+    if (currentProposer) {
+      return displayBrand(currentProposer)
     } else if (data?.slot?.currentEpochProposers) {
       return truncateAddress({
         address:
@@ -35,6 +35,7 @@ export default function PreconfBanner({ builder, preconf, title, slot}) {
       return 'Fetching...'
     }
   }
+
  
   return (
     <>
@@ -46,7 +47,7 @@ export default function PreconfBanner({ builder, preconf, title, slot}) {
           <SquareCard title="Slot" value={slot || "Fetching..."} />
           <SquareCard
             title="Proposer"
-            value={displayProposer()}
+            value={currentProposer ? displayBrand(currentProposer) : displayProposer()}
           />
           <SquareCard
             title="Builder"

@@ -49,7 +49,7 @@ export const LogsDisplay = ({ title, preconfTxns }) => {
                           {/* {pre.timestamp
                             ? new Date(pre.timestamp).toLocaleTimeString()
                             : null} */}
-                            {pre.timestamp}
+                            {pre.timestwamp}
                         </TableCell>
                         <TableCell
                           className={cn("bg-zinc-800 p-2", {
