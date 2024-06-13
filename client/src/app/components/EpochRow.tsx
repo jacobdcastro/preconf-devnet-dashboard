@@ -15,10 +15,10 @@ const EpochRow = () => {
       <div>
         <div className="flex justify-between max-w-6xl">
           <h2 className="text-3xl font-semibold leading-6 text-gray-200">
-            Epoch {data?.slot.currentEpoch}
+            Epoch {data?.slot?.currentEpoch}
           </h2>
           <h2 className="text-xl font-semibold leading-6 text-gray-200 flex-end">
-            {slotIndex && slotIndex >= 0 ? (
+            {slotIndex ? (
               <span>
                 <span className="mr-3">Slot:</span>
                 {slotIndex + 1} / 32{" "}
@@ -33,7 +33,7 @@ const EpochRow = () => {
             <div className="mx-auto lg:mx-0">
               <div className="w-full text-left border-t border-gray-700">
                 <div className="grid grid-cols-[repeat(32,_minmax(0,_1fr))] gap-[1.2px] my-2">
-                  {currentEpochProposers && slotIndex
+                  {currentEpochProposers && slotIndex !== undefined
                     ? currentEpochProposers.map((slot, index) => (
                         <div
                           key={index}
