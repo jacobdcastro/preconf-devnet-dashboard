@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import MainContentWrapper from "./components/MainContentWrapper";
 import Navbar from "./components/Navbar";
 import PreconfBanner from "./components/PreconfBanner";
@@ -8,10 +8,12 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import EpochRow from "./components/EpochRow";
 import LogsDisplay from "./components/LogsDisplay";
-import { Builders, Preconfs } from "@/interfaces/preconf";
+import { Builders, Preconfs, proposerNames } from "@/interfaces/preconf";
 import { DataPayload } from "@/interfaces/api";
 import useWebSocket from "@/hooks/useWebsocket";
 import { ApiDataContext } from "@/components/apiDataContext";
+import { proposers } from "@/lib/preconfAgentMapping";
+import { truncateHex } from "./utils/truncate";
 
 export default function Home() {
   const [currentSlot, setCurrentSlot] = useState(0);
@@ -61,16 +63,42 @@ export default function Home() {
     }
   }, [slotIndexEpoch, slotIndexFromTxn]);
 
-  //todo: get current builder and preconf
-  const currentBuilder = Builders[1];
-  const currentPreconf = Preconfs[1];
+  const proposerCurrentSlot = useMemo(() => {
+    const valIndex =
+      data?.slot?.currentEpochProposers[slotIndexInEpoch]?.validator_index;
+    return proposers.find((proposer) =>
+      proposer.validatorIndices.includes(parseInt(valIndex?.toString()))
+    );
+  }, [data?.slot?.currentEpochProposers, slotIndexInEpoch]);
+
+  const proposerPreviousSlot = useMemo(() => {
+    const valIndex =
+      data?.slot?.currentEpochProposers[slotIndexInEpoch - 1]?.validator_index;
+    return (
+      proposers.find((proposer) =>
+        proposer.validatorIndices.includes(
+          valIndex ? parseInt(valIndex?.toString()) : null
+        )
+      ) || {
+        name: truncateHex({
+          hexStr: data?.slot?.currentEpochProposers[slotIndexInEpoch].pubkey,
+        }),
+        img: "",
+      }
+    );
+  }, [data?.slot?.currentEpochProposers, slotIndexInEpoch]);
+
+  useEffect(() => {
+    console.log("prevIndex", slotIndexEpoch - 1, proposerPreviousSlot);
+    console.log("currIndex", slotIndexEpoch, proposerCurrentSlot);
+  }, [proposerCurrentSlot, proposerPreviousSlot, slotIndexEpoch]);
 
   return (
     <ApiDataContext.Provider value={{ ...data, slotIndexInEpoch }}>
       <main>
         <img
           src="/gradient.png"
-          className="absolute top-0 right-0 w-fukll h-auto"
+          className="absolute top-0 right-0 w-fukll h-auto z-0 pointer-events-none"
           alt="orb"
         />
         <Navbar />
@@ -79,11 +107,9 @@ export default function Home() {
           <div className="flex gap-x-6 w-full lg:min-w-[1060px]">
             <div className="flex flex-col">
               <PreconfBanner
-                builder={currentBuilder}
-                preconf={currentPreconf}
+                proposer={proposerPreviousSlot}
                 title="Previous Slot Details"
                 slot={data?.slot?.currentSlot}
-                
               />
               <LogsDisplay
                 title="Previous Slot"
@@ -92,8 +118,7 @@ export default function Home() {
             </div>
             <div className="flex flex-col">
               <PreconfBanner
-                builder={currentBuilder}
-                preconf={currentPreconf}
+                proposer={proposerCurrentSlot}
                 title="Current Slot Details"
                 slot={data?.slot?.currentSlot + 1}
               />

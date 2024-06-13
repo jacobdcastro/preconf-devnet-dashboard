@@ -2,41 +2,55 @@
 import SquareCard from "@/components/ui/squarecard";
 import { IBuilder, IPreconf, proposerNames } from "@/interfaces/preconf";
 import { truncateAddress } from "../utils/truncate";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ApiDataContext } from "@/components/apiDataContext";
-import { findProposerByValidatorIndex, findProposerNameByValidatorIndex } from "../utils/getName";
+import {
+  NonProposer,
+  Proposer,
+  findProposerByValidatorIndex,
+} from "@/lib/preconfAgentMapping";
 
-
-export const displayBrand = (item: IBuilder | IPreconf) => {
+export const BrandDisplay = (item: NonProposer) => {
   return (
     <span className="flex items-center">
-      <img className="h-7 w-auto mr-1" src={item.img} alt={item.name} />
+      {item.img && (
+        <img className="h-7 w-auto mr-2" src={item.img} alt={item.name} />
+      )}
       <p>{item.name}</p>
     </span>
   );
 };
 
-export default function PreconfBanner({ builder, preconf, title, slot}) {
+export default function PreconfBanner({
+  proposer,
+  title,
+  slot,
+}: {
+  proposer: Proposer;
+  title: string;
+  slot: number;
+}) {
   const data = useContext(ApiDataContext);
   const slotIndex = data?.slot?.slotIndex || null;
-  const currentValidatorIndex = data?.slot?.currentEpochProposers[slotIndex]?.validator_index;
-  const currentProposer = findProposerByValidatorIndex(proposerNames, currentValidatorIndex)
+  const currentValidatorIndex =
+    data?.slot?.currentEpochProposers[slotIndex]?.validator_index;
 
   const displayProposer = () => {
-    if (currentProposer) {
-      return displayBrand(currentProposer)
+    if (proposer) {
+      return BrandDisplay({
+        name: proposer.name,
+        img: proposer.img,
+      });
     } else if (data?.slot?.currentEpochProposers) {
       return truncateAddress({
-        address:
-          data?.slot?.currentEpochProposers[slotIndex]?.pubkey,
+        address: data?.slot?.currentEpochProposers[slotIndex]?.pubkey,
         firstCharCount: 5,
-      })
+      });
     } else {
-      return 'Fetching...'
+      return "Fetching...";
     }
-  }
+  };
 
- 
   return (
     <>
       <div className="lg:min-w-[530px]">
@@ -47,15 +61,39 @@ export default function PreconfBanner({ builder, preconf, title, slot}) {
           <SquareCard title="Slot" value={slot || "Fetching..."} />
           <SquareCard
             title="Proposer"
-            value={currentProposer ? displayBrand(currentProposer) : displayProposer()}
+            value={
+              proposer
+                ? BrandDisplay({
+                    name: proposer.name,
+                    img: proposer.img,
+                  })
+                : displayProposer()
+            }
           />
-          <SquareCard
+          {/* <SquareCard
             title="Builder"
-            value={builder ? displayBrand(builder) : "Fetching.."}
+            value={builder ? brandDisplay(builder) : "Fetching.."}
           />
           <SquareCard
             title="Relay"
-            value={preconf ? displayBrand(preconf) : "Fetching.."}
+            value={preconf ? brandDisplay(preconf) : "Fetching.."}
+          /> */}
+
+          <SquareCard
+            title="Builder"
+            value={
+              proposer && proposer?.builders && proposer?.builders.length > 0
+                ? BrandDisplay(proposer.builders[0])
+                : "Unknown"
+            }
+          />
+          <SquareCard
+            title="Relay"
+            value={
+              proposer && proposer?.relays && proposer?.relays.length > 0
+                ? BrandDisplay(proposer.relays[0])
+                : "Unknown"
+            }
           />
         </dl>
       </div>
