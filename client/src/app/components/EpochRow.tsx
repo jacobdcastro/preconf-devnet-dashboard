@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import { cn } from "@/lib/utils";
 import { ISlot } from "@/interfaces/preconf";
 import { ApiDataContext } from "../page";
+import LookAheadToolTip from "./Lookahead";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 
 const EpochRow = () => {
   const data = useContext(ApiDataContext);
@@ -37,10 +39,10 @@ const EpochRow = () => {
                         <div
                           key={index}
                           className={cn("h-10 rounded", {
-                            "animate-pulse": slot.slot % 32 === slotIndex,
-                            "bg-green-700": slot.slot % 32 !== slotIndex,
-                            "bg-gray-300": slot.slot % 32 === slotIndex,
-                            "bg-zinc-800": slot.slot % 32 > slotIndex,
+                            // "animate-pulse": slot.slot % 32 === slotIndex,
+                            // "bg-green-700": slot.slot % 32 !== slotIndex,
+                            // "bg-gray-300": slot.slot % 32 === slotIndex,
+                            // "bg-zinc-800": slot.slot % 32 > slotIndex,
                           })}
                         ></div>
                       ))
