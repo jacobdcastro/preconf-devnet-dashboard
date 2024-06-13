@@ -20,11 +20,10 @@ export default function PreconfBanner({
   currentProposerPubkey,
 }) {
   const data = useContext(ApiDataContext);
-  const slotIndex = data?.slot.slotIndex - 1;
-  const currentSlot = data?.slot.currentSlot;
-  const currentEpochProposers = data?.slot.currentEpochProposers;
+  const slotIndex = data?.slot?.slotIndex - 1;
+  const currentSlot = data?.slot?.currentSlot;
+  const currentEpochProposers = data?.slot?.currentEpochProposers;
   console.log(data);
-  console.log(currentEpochProposers);
 
   // replace this with real mapping
   // console.log(getNameByPubkey(proposerNames, '0x23'));
@@ -50,10 +49,10 @@ export default function PreconfBanner({
           <SquareCard
             title="Proposer"
             value={
-              data?.slot.currentEpochProposers
+              data?.slot?.currentEpochProposers
                 ? truncateAddress({
                     address:
-                      data?.slot.currentEpochProposers[slotIndex]?.pubkey,
+                      data?.slot?.currentEpochProposers[slotIndex]?.pubkey,
                     firstCharCount: 5,
                   })
                 : "Fetching.."

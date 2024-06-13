@@ -8,8 +8,8 @@ import { TooltipProvider } from "@radix-ui/react-tooltip";
 
 const EpochRow = () => {
   const data = useContext(ApiDataContext);
-  const slotIndex = data?.slot.slotIndex - 1;
-  const currentEpochProposers = data?.slot.currentEpochProposers;
+  const slotIndex = data?.slot?.slotIndex - 1;
+  const currentEpochProposers = data?.slot?.currentEpochProposers;
 
   console.log(data);
 
@@ -18,7 +18,7 @@ const EpochRow = () => {
       <div>
         <div className="flex justify-between">
           <h2 className="text-3xl font-semibold leading-6 text-gray-200 lg:mx-0 lg:max-w-none">
-            Epoch {data?.slot.currentEpoch}
+            Epoch {data?.slot?.currentEpoch}
           </h2>
           <h2 className="text-xl font-semibold leading-6 text-gray-200 flex-end">
             {slotIndex && slotIndex >= 0 ? (

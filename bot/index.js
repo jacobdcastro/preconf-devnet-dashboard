@@ -85,7 +85,7 @@ const startSpamming = async () => {
   setInterval(async () => {
     slot = await getCurrentSlot(); // Ensure we get the current slot each interval
     await spamTransactions(slot);
-    setTimeout(() => sendBlockConfirmed(slot), SLOT_DURATION - 500); // Send block_confirmed 500ms before the end of the slot
+    setTimeout(() => sendBlockConfirmed(slot), SLOT_DURATION - 1000); // Send block_confirmed 500ms before the end of the slot
   }, SLOT_DURATION);
 };
 
