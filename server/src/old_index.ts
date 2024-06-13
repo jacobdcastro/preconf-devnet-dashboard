@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import axios from "axios";
 import Redis from "ioredis";
-import { WebSocketServer, WebSocket } from "ws";
 dotenv.config();
 
 const BEACON_API_BASE_URL = "http://18.199.195.154:32995";
@@ -117,7 +116,10 @@ app.post("/events/preconfs/requested", async (req: Request, res: Response) => {
     included: null,
   };
 
-  await handleSlotChange(event.slot);
+  const currentSlot = await getCurrentSlot();
+  event.slot = currentSlot;
+
+  await handleSlotChange(currentSlot);
 
   const { slot, tx_hash } = event;
   const key = `${slot}_${tx_hash}`;
@@ -132,7 +134,6 @@ app.post("/events/preconfs/requested", async (req: Request, res: Response) => {
   }
 
   res.status(200).send("Event received.");
-  notifyClients(); // Notify WebSocket clients
 });
 
 app.post("/events/preconfs/responded", async (req: Request, res: Response) => {
@@ -143,7 +144,10 @@ app.post("/events/preconfs/responded", async (req: Request, res: Response) => {
     included: null,
   };
 
-  await handleSlotChange(event.slot);
+  const currentSlot = await getCurrentSlot();
+  event.slot = currentSlot;
+
+  await handleSlotChange(currentSlot);
 
   const { slot, tx_hash } = event;
   const key = `${slot}_${tx_hash}`;
@@ -158,11 +162,13 @@ app.post("/events/preconfs/responded", async (req: Request, res: Response) => {
   }
 
   res.status(200).send("Event received.");
-  notifyClients(); // Notify WebSocket clients
 });
 
 app.post("/events/preconfs/confirmed", async (req: Request, res: Response) => {
   const event: PreconfConfirmedEvent = req.body;
+
+  const currentSlot = await getCurrentSlot();
+  event.slot = currentSlot;
 
   const { slot, tx_hashes } = event;
 
@@ -198,31 +204,9 @@ app.post("/events/preconfs/confirmed", async (req: Request, res: Response) => {
   }
 
   res.status(200).send("Event received.");
-  notifyClients(); // Notify WebSocket clients
 });
 
-// WebSocket server setup
-const server = app.listen(PORT, () => {
-  console.log(`[server]: Server is running at http://localhost:${PORT}`);
-});
-
-const wss = new WebSocketServer({ server });
-
-let clients = [];
-
-wss.on("connection", (ws) => {
-  clients.push(ws);
-
-  ws.on("close", () => {
-    clients = clients.filter((client) => client !== ws);
-  });
-
-  ws.on("error", (error) => {
-    console.error("WebSocket error:", error);
-  });
-});
-
-const notifyClients = async () => {
+app.get("/data", async (req: Request, res: Response) => {
   let data: any = {
     currentTimestampSeconds: Math.floor(Date.now() / 1000),
     preconfTxns: [],
@@ -272,9 +256,7 @@ const notifyClients = async () => {
 
       const keyConfirmed = `${currentSlot}_confirmed`;
       const confirmedEvent = await redis.get(keyConfirmed);
-      if (confirmedEvent) {
-        data.confirmedBlock = JSON.parse(confirmedEvent);
-      }
+      if (confirmedEvent) data.confirmedBlock = JSON.parse(confirmedEvent);
     } catch (error) {
       console.error("Error querying Redis:", error);
     }
@@ -282,9 +264,9 @@ const notifyClients = async () => {
     console.error("Error during data processing:", error);
   }
 
-  for (const client of clients) {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(data));
-    }
-  }
-};
+  res.json(data);
+});
+
+app.listen(PORT, () => {
+  console.log(`[server]: Server is running at http://localhost:${PORT}`);
+});
