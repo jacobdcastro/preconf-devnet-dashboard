@@ -5,7 +5,8 @@ export interface IBuilder {
 }
 export interface IPreconf {
     name: string | undefined;
-    img: any;
+    validatorIndices?: number[];
+    img?: string;
 }
 
 export interface IProposer {
@@ -44,23 +45,36 @@ export const BuilderNames: {[x: string]: string} = {
     ultrasound: "Ultrasound",
 }
 
-export const proposerNames = [
+const boltValidatorIndices = Array.from({ length: 64 }, (_, index) => index);
+const titanValidatorIndices = Array.from({ length: 245 - 192 + 1 }, (_, index) => 192 + index)
+
+export const proposerNames: IPreconf[] = [
     {
-        name: 'alice',
-        pubkey: '0x23',
+        name: 'Bolt',
+        validatorIndices: boltValidatorIndices,
+        img: '/logos/bolt.svg'
     },
     {
-        name: 'bob',
-        pubkey: '0x9999',
+        name: 'Titan',
+        validatorIndices: titanValidatorIndices,
+        img: '/logos/titan.jpg'
+
+    },
+    {
+        name: 'Chorus One',
+        validatorIndices: [247, 250, 251, 252, 254],
+        img: '/logos/chorus.jpg'
+    },
+    {
+        name: 'Kiln',
+        validatorIndices: [246, 248, 249, 253, 255],
+        img: '/logos/kiln.jpeg'
     },
 ];
 
 
 export const Preconfs: IPreconf[] = [
-    { 
-        name: PreconfNames.bolt, 
-        img: '/logos/bolt.png'
-    },
+
     { 
         name: PreconfNames.primev, 
         img: '/logos/primev.png'
@@ -81,34 +95,3 @@ export const Builders: IBuilder[] = [
         img: '/logos/ultrasound.png'
     },
 ]
-
-interface PreconfRequestedEvent {
-    protocol_id: string; // Bolt or titan
-    tx_hash: string; // The transaction hash
-    timestamp: number; // Timestamp in UNIX milliseconds
-    slot: number; // The target slot
-    validator_index: number; // The target validator index
-    endpoint: string; // Preconf endpoint
-  }
-  
-  interface PreconfRespondedEvent {
-    protocol_id: string; // Bolt or titan
-    tx_hash: string; // The transaction hash
-    timestamp: number; // Timestamp in UNIX milliseconds
-    slot: number; // The target slot
-    validator_index: number; // The target validator index
-    endpoint: string; // Preconf endpoint
-  }
-  
-  interface PreconfConfirmedEvent {
-    protocol_id: string; // Bolt or titan
-    tx_hash: string; // The transaction hash
-    timestamp: number; // Timestamp in UNIX milliseconds
-    slot: number; // The target slot
-    block_number: number; // Block number
-    block_hash: string; // Block hash
-    graffiti: string; // Graffiti
-    validator_index: number; // The target validator index
-    endpoint: string; // Preconf endpoint
-    tx_hashes: string[]; // Array of transaction hashes
-  }

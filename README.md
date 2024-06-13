@@ -6,23 +6,26 @@ A dashboard for visualizing preconfirmations on the devnet built at ZuBerlin 202
 
 - `client`: a [Next.js](https://nextjs.org/) web app
 - `server`: a Node.js/Express server
+- `bot`: a small "spammer" of preconfirmation events
 
-## Build
+## Demo (a.k.a. "prod")
 
-To build all apps and packages, run the following command:
+To run the full demo using docker compose:
 
 ```
-pnpm build
+cd server
+docker-compose -f docker-compose.prod.yml up --build
 ```
 
-## Develop
+## Development
 
 To develop all apps and packages, run the following command:
 
 ```
-pnpm dev
+cd server
+docker-compose -f docker-compose.dev.yml up --build
 ```
 
 ## More coming soon
 
-More coming soon...
+More info coming soon :)
