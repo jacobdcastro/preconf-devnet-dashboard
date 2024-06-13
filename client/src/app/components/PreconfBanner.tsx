@@ -17,35 +17,27 @@ const displayBrand = (item: IBuilder | IPreconf) => {
 export default function PreconfBanner({
   builder,
   preconf,
-  currentProposerPubkey,
+  slotIndex, 
+  title
 }) {
   const data = useContext(ApiDataContext);
-  const slotIndex = data?.slot.slotIndex - 1;
-  const currentSlot = data?.slot.currentSlot;
-  const currentEpochProposers = data?.slot.currentEpochProposers;
-  console.log(data);
-  console.log(currentEpochProposers);
+
+  // console.log(data);
+  // console.log(currentEpochProposers);
 
   // replace this with real mapping
   // console.log(getNameByPubkey(proposerNames, '0x23'));
 
-  const truncatedPubkey = currentProposerPubkey
-    ? truncateAddress({
-        address: currentProposerPubkey || "",
-        firstCharCount: 5,
-      })
-    : null;
-
   return (
     <>
-      <div>
+      <div className='lg:min-w-[530px]'>
         <h3 className="text-lg font-semibold leading-6 text-gray-200 ">
-          Current Preconf Details
+          {title}
         </h3>
-        <dl className="grid grid-cols-1 gap-2 sm:grid-cols-4 max-w-4xl mt-2">
+        <dl className="grid grid-cols-1 gap-2 sm:grid-cols-2 mt-2">
           <SquareCard
-            title="Current Slot"
-            value={currentSlot ? currentSlot : "Fetching.."}
+            title="Slot"
+            value={slotIndex > 0 ? slotIndex : slotIndex < 0 ? 'No previous slot' : 'Fetching...'}
           />
           <SquareCard
             title="Proposer"
@@ -59,10 +51,10 @@ export default function PreconfBanner({
                 : "Fetching.."
             }
           />
-          {/* <SquareCard
+          <SquareCard
             title="Builder"
             value={builder ? displayBrand(builder) : "Fetching.."}
-          /> */}
+          />
           <SquareCard
             title="Relay"
             value={preconf ? displayBrand(preconf) : "Fetching.."}

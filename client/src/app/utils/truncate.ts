@@ -10,10 +10,13 @@ export const truncateHex = ({
     firstCharCount = 7,
     lastCharCount = 4,
     exclude0x = false
-    }: { hexStr: string } & TruncateFnOptionalParams) =>
-    `${hexStr.slice(exclude0x ? 2 : 0, 2 + firstCharCount)}${
-        lastCharCount > 0 ? '....' : ''
-    }${hexStr.slice(hexStr.length - lastCharCount, hexStr.length)}`
+    }: { hexStr: string } & TruncateFnOptionalParams) => {
+    if (hexStr) {
+        return `${hexStr.slice(exclude0x ? 2 : 0, 2 + firstCharCount)}${
+            lastCharCount > 0 ? '....' : ''
+        }${hexStr.slice(hexStr?.length - lastCharCount, hexStr.length)}`
+    } else return;
+}
 
 export const truncateAddress = ({
     address,

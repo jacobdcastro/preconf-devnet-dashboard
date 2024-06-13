@@ -5,13 +5,9 @@ type Props = {
 
 const MainContentWrapper = ({children}: Props) => {
     return (
-        <div className="py-8">
-          <header>
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            </div>
-          </header>
+        <div className="py-8 flex">
           <main>
-            <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">{children}</div>
+            <div className="mx-auto sm:px-6 lg:px-8">{children}</div>
           </main>
         </div>
     )
