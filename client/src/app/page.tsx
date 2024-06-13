@@ -62,12 +62,28 @@ export default function Home() {
         <Navbar />
         <MainContentWrapper>
           <EpochRow />
-          <PreconfBanner
-            currentProposerPubkey={currentProposerPubkey}
-            builder={currentBuilder}
-            preconf={currentPreconf}
-          />
-          <LogsDisplay />
+          <div className='flex gap-x-6 w-full lg:min-w-[1060px]'>
+            <div className='flex flex-col'>
+              <PreconfBanner
+                builder={currentBuilder}
+                preconf={currentPreconf}
+                slotIndex={data?.slot.slotIndex - 1}
+                title='Previous Slot Details'
+              />
+              <LogsDisplay title="Previous Slot" />
+            </div>
+            <div className='flex flex-col'>
+              <PreconfBanner
+                builder={currentBuilder}
+                preconf={currentPreconf}
+                slotIndex={data?.slot.slotIndex}
+                title='Current Slot Details'
+
+
+                />
+              <LogsDisplay title="Current Slot" />
+            </div>
+          </div>
         </MainContentWrapper>
       </main>
     </ApiDataContext.Provider>
