@@ -2,6 +2,12 @@
 
 A dashboard for visualizing preconfirmations on the devnet built at ZuBerlin 2024.
 
+Announcment tweet by Justin Drake found here: https://x.com/drakefjustin/status/1801321889152835758
+
+Demo video from above tweet:
+
+https://github.com/user-attachments/assets/5d6b1dbe-b35c-4b30-8ecf-14425bc7383b
+
 ## Apps
 
 - `client`: a [Next.js](https://nextjs.org/) web app
